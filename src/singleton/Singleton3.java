@@ -6,7 +6,7 @@ public class Singleton3 {
     private static Singleton3 instance;
 
     public static synchronized Singleton3 getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new Singleton3();
         }
 
@@ -15,10 +15,10 @@ public class Singleton3 {
 
 
     // double check locking
-    public static Singleton3 getInstance2(){
-        if (instance == null){
-            synchronized (Singleton3.class){
-                if(instance == null){
+    public static Singleton3 getInstance2() {
+        if (instance == null) {
+            synchronized (Singleton3.class) {
+                if (instance == null) {
                     instance = new Singleton3();
                 }
             }
@@ -28,7 +28,20 @@ public class Singleton3 {
     }
 
 
-    public void print(){
+    // object lock
+    private static final Object sLock = new Object();
+
+    public static synchronized Singleton3 getInstance3() {
+        synchronized (sLock) {
+            if (instance == null) {
+                return instance = new Singleton3();
+            }
+
+            return instance;
+        }
+    }
+
+    public void print() {
         System.out.println("Thread Safe Singleton");
     }
 }
